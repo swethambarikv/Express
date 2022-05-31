@@ -1,27 +1,32 @@
-var express = require("express");
+var express = require('express');
 var app = express();
-var products =require('./routes/products');
+var PORT = 3000;
 
-app.use('/products',products);
-
-app.post("/create-users",(req,res)=>{
-    res.send("Details of Employees:");
+// Multiple routing
+var router1 = express.Router();
+var router2 = express.Router();
+var router3 = express.Router();
+	
+router1.get('/user', function (req, res, next) {
+	console.log("User Router Working");
+	res.end();
 });
-app.put("/update-users",(req,res)=>{
-    res.send("Details of Employees:");
-});
-app.get("/get-users",(req,res)=>{
 
-    var details = {
-       name: "swetha",
-       id: 549,
-       practice: "LAMP",
-       active: true
-    }
-   
-       res.send(details);
-   });
-app.delete("/delete-users",(req,res)=>{
-    res.send("Details of Employees:");
-});   
-app.listen(4000);
+router2.get('/admin', function (req, res, next) {
+	console.log("Admin Router Working");
+	res.end();
+});
+
+router2.get('/student', function (req, res, next) {
+	console.log("Student Router Working");
+	res.end();
+});
+
+app.use(router1);
+app.use(router2);
+app.use(router3);
+
+app.listen(PORT, function(err){
+	if (err) console.log(err);
+	console.log("Server listening on PORT", PORT);
+});
